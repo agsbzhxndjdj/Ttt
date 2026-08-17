@@ -1,0 +1,53 @@
+name: killlk
+description: Tele Cinema - تطبيق مشاهدة الأفلام
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: ^5.4.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  cached_network_image: ^3.3.0
+  video_player: ^2.8.0
+  wakelock_plus: ^1.2.8
+  connectivity_plus: ^6.1.0
+  path_provider: ^2.1.4
+  intl: ^0.19.0
+  flutter_local_notifications: ^17.0.0
+  file_picker: ^8.0.0
+  cloud_firestore: ^5.0.0
+  firebase_core: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  hive_generator: ^2.0.0
+  build_runner: ^2.4.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/iconic.png
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/iconic.png"
+  adaptive_icon_background: "#0B0F14"
+  adaptive_icon_foreground: "assets/iconic.png"
+
+dependency_overrides:
+  path_provider: 2.1.4
+  package_info_plus: 8.3.1
+  wakelock_plus: 1.2.8
+  connectivity_plus: 6.1.5
+  file_picker: 8.1.2
+  flutter_local_notifications: 17.2.3

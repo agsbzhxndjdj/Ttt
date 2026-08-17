@@ -1,0 +1,6 @@
+{
+  "name": "Tele Cinema",
+  "description": "Cinema and movies streaming app with Telegram channel integration, Internet Archive & movie sources, ExoPlayer, downloads manager, smart recommendations, and full Arabic/English localization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

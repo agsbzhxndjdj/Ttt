@@ -9,29 +9,41 @@ class SitesManager {
 
   static Future<List<SiteMovie>> getAllMovies({bool enrich = true}) async {
     final all = <SiteMovie>[];
-    all.addAll(await InternetArchiveService.getMovies());
-    all.addAll(await PlexService.getMovies());
-    all.addAll(await RokuService.getMovies());
-    all.addAll(await CrackleService.getMovies());
+    
+    // 1. جلب من الأرشيف (زودنا الحد الأقصى لـ 50)
+    all.addAll(await InternetArchiveService.getMovies(limit: 50));
+    
+    // 2. جلب من المصادر الأخرى مع عزل الأخطاء لطباعتها
+    try {
+      all.addAll(await PlexService.getMovies());
+    } catch (e) { print('⚠️ Plex Error: $e'); }
+
+    try {
+      all.addAll(await RokuService.getMovies());
+    } catch (e) { print('⚠️ Roku Error: $e'); }
+
+    try {
+      all.addAll(await CrackleService.getMovies());
+    } catch (e) { print('⚠️ Crackle Error: $e'); }
+
     return _dedup(all);
   }
 
   static Future<List<SiteMovie>> getMoviesFromSite(String site, {bool enrich = true}) async {
-    List<SiteMovie> list;
     switch (site) {
-      case 'plex': list = await PlexService.getMovies(); break;
-      case 'roku': list = await RokuService.getMovies(); break;
-      case 'crackle': list = await CrackleService.getMovies(); break;
+      case 'plex': return await PlexService.getMovies();
+      case 'roku': return await RokuService.getMovies();
+      case 'crackle': return await CrackleService.getMovies();
       case 'archive':
-      default: list = await InternetArchiveService.getMovies();
+      default: return await InternetArchiveService.getMovies(limit: 50);
     }
-    return list;
   }
 
   static Future<List<SiteMovie>> search(String query) async => [];
 
-  static List<SiteMovie> _dedup(List<SiteMovie> l) {
-    final seen = <String>{};
-    return l.where((m) => seen.add(m.title)).toList();
+  static List<SiteMovie> _dedup(List<SiteMovie> list) {
+    final seenIds = <String>{};
+    // ✅ التصحيح: إزالة التكرار بناءً على المعرف الفريد (id) وليس العنوان
+    return list.where((m) => seenIds.add(m.id)).toList();
   }
 }
